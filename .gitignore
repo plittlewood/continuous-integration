@@ -1,0 +1,5 @@
+ci-demo-api/bin/*
+ci-demo-api/obj/*
+ci-demo-api-tests/bin/*
+ci-demo-api-tests/obj/*
+.vs/*
