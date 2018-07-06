@@ -29,5 +29,12 @@ namespace ci_demo_api.Controllers
         {
             return Ok("This is a new endpoint deployed using CI/CD methods");
         }
+
+        // GET api/values
+        [HttpGet("anothernewendpoint")]
+        public async Task<IActionResult> AnotherNewEndpoint()
+        {
+            return Ok("This is another new endpoint deployed using CI/CD methods");
+        }
     }
 }
