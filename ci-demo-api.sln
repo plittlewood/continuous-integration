@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ci-demo-api", "ci-demo-api\ci-demo-api.csproj", "{9AF8362E-374F-4D3E-89F2-F7CA386EB796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ci-demo-api", "ci-demo-api\ci-demo-api.csproj", "{9AF8362E-374F-4D3E-89F2-F7CA386EB796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ci-demo-api-tests", "ci-demo-api-tests\ci-demo-api-tests.csproj", "{16C968E0-6899-4964-B6D0-6DE41CB1424C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ci-demo-api-tests", "ci-demo-api-tests\ci-demo-api-tests.csproj", "{16C968E0-6899-4964-B6D0-6DE41CB1424C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

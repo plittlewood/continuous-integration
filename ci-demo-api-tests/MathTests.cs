@@ -1,13 +1,12 @@
 
 using ci_demo_api;
-using NUnit.Framework;
+using Xunit;
 
 namespace ci_demo_api_tests
 {
-    [TestFixture]
     public class MathTests
     {
-        [Test]
+        [Fact]
         public void When_Multiply_Result_Is4()
         {
             int numA = 2;
@@ -15,7 +14,7 @@ namespace ci_demo_api_tests
 
             int output = MathHelper.Multiply(numA, numB);
 
-            Assert.AreEqual(4, output);
+            Assert.Equal(4, output);
         }
     }
 }
