@@ -27,5 +27,16 @@ namespace ci_demo_api_tests
 
             Assert.Equal(6, output);
         }
+
+        [Fact]
+        public void When_Multiply_Result_Is8()
+        {
+            int numA = 2;
+            int numB = 4;
+
+            int output = MathHelper.Multiply(numA, numB);
+
+            Assert.Equal(8, output);
+        }
     }
 }

@@ -22,17 +22,5 @@ namespace ci_demo_api.Controllers
         {
             return Ok($"The result of {numA} * {numB} is " + MathHelper.Multiply(numA, numB));
         }
-
-        [HttpGet("endpoint/{value}")]
-        public async Task<IActionResult> Endpoint(string value)
-        {
-            return Ok($"You passed a value of {value} to the new endpoint");
-        }
-
-        [HttpGet("newendpoint/{value}")]
-        public async Task<IActionResult> NewEndpoint(string value)
-        {
-            return Ok($"You passed a value of {value} to the very new endpoint");
-        }
     }
 }
