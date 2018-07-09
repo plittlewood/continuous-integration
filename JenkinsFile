@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                slackSend color: '#439FE0', message: 'Starting build ${env.BUILD_NUMBER} on branch {env.BRANCH_NAME}'
+                slackSend color: '#439FE0', message: 'Starting build $BUILD_NUMBER on branch $BRANCH_NAME'
 				bat '''cd %WORKSPACE%
 				dotnet restore
 				exit 0'''
@@ -13,10 +13,19 @@ pipeline {
 		stage('Test') {
 			steps {
 			
-				slackSend color: '#439FE0', message: 'Starting tests in build ${env.BUILD_NUMBER} on branch {env.BRANCH_NAME}'
-					bat '''cd %WORKSPACE%
-					dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"
-					exit 0'''
+				slackSend color: '#439FE0', message: 'Starting tests in build $BUILD_NUMBER on branch $BRANCH_NAME'
+				bat '''cd %WORKSPACE%
+				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"
+				exit 0'''
+				xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+
+			}
+		stage('Deploy') {
+			steps {
+				slackSend color: '#439FE0', message: 'Building deployment packages in build $BUILD_NUMBER on branch $BRANCH_NAME'
+				bat '''cd %WORKSPACE%
+					dotnet publish'''
+				sshPublisher(publishers: [sshPublisherDesc(configName: 'AWS Free Tier', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/', sourceFiles: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/ci-demo-api*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 			}
 		}
     }
