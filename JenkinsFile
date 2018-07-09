@@ -40,9 +40,9 @@ pipeline {
 		
     }
 	post {
-			always {
-			// Import xUnit results
-				xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
-			}
+		always {
+		// Import xUnit results
+			xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
 		}
+	}
 }
