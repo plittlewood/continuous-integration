@@ -3,12 +3,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat '''cd %WORKSPACE%
+                slackSend color: '#439FE0', message: 'Starting build ${env.BUILD_NUMBER} on branch {env.BRANCH_NAME}'
+				bat '''cd %WORKSPACE%
 				dotnet restore
-				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"
 				exit 0'''
-				slackSend color: '#439FE0', message: 'Starting build ${env.BUILD_NUMBER} on branch {env.BRANCH_NAME}'
+				
             }
         }
+		stage('Test') {
+			slackSend color: '#439FE0', message: 'Starting tests in build ${env.BUILD_NUMBER} on branch {env.BRANCH_NAME}'
+				bat '''cd %WORKSPACE%
+				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"
+				exit 0'''
+		}
     }
 }
