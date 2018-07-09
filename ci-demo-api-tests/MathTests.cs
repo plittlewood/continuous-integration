@@ -14,7 +14,7 @@ namespace ci_demo_api_tests
 
             int output = MathHelper.Multiply(numA, numB);
 
-            Assert.Equal(4, output);
+            Assert.Equal(5, output);
         }
 
         [Fact]
