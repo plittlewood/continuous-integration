@@ -20,6 +20,7 @@ pipeline {
 				xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
 
 			}
+		}
 		stage('Deploy') {
 			steps {
 				slackSend color: '#439FE0', message: 'Building deployment packages in build $BUILD_NUMBER on branch $BRANCH_NAME'
