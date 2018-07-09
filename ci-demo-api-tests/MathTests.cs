@@ -36,7 +36,7 @@ namespace ci_demo_api_tests
 
             int output = MathHelper.Multiply(numA, numB);
 
-            Assert.Equal(8, output);
+            Assert.Equal(7, output);
         }
     }
 }
