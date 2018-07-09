@@ -37,11 +37,12 @@ pipeline {
 				sshPublisher(publishers: [sshPublisherDesc(configName: 'AWS Free Tier', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/', sourceFiles: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/ci-demo-api*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 			}
 		}
-		post {
+		
+    }
+	post {
 			always {
 			// Import xUnit results
 				xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
 			}
 		}
-    }
 }
