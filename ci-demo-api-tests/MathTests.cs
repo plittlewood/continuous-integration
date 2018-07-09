@@ -38,5 +38,16 @@ namespace ci_demo_api_tests
 
             Assert.Equal(8, output);
         }
+
+        [Fact]
+        public void When_DivideBy2_Result_Is2()
+        {
+            int numA = 4;
+            int numB = 2;
+
+            decimal output = MathHelper.Divide(numA, numB);
+
+            Assert.Equal(2, output);
+        }
     }
 }

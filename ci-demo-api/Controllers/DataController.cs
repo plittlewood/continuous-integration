@@ -23,6 +23,12 @@ namespace ci_demo_api.Controllers
             return Ok($"The result of {numA} * {numB} is " + MathHelper.Multiply(numA, numB));
         }
 
+        [HttpGet("divide/{numA}/{numB}")]
+        public async Task<IActionResult> Divider(int numA, int numB)
+        {
+            return Ok($"The result of {numA} / {numB} is " + MathHelper.Divide(numA, numB));
+        }
+
         [HttpGet("endpoint/{value}")]
         public async Task<IActionResult> Endpoint(string value)
         {
