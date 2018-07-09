@@ -3,25 +3,39 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+				// Send slack notification to advise of build start
                 slackSend color: "#439FE0", message: "Starting build ${env.BUILD_NUMBER} on branch ${env.BRANCH_NAME}"
+				
+				// CD to workspace and restore packages
 				bat '''cd %WORKSPACE%
-				dotnet restore
-				exit 0'''
+				dotnet restore'''
             }
         }
 		stage('Test') {
 			steps {
+				// Send slack notificaion to advise of test start
 				slackSend color: "#439FE0", message: "Starting tests in build ${env.BUILD_NUMBER} on branch ${env.BRANCH_NAME}"
+				
+				// CD to workspace and run dotnet test
+				// There is a bug with this code that if we don't force returning of exit 0, the xunit step does not run as the test gets marked as failed
 				bat '''cd %WORKSPACE%
-				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"'''
+				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"
+				exit 0'''
+				
+				// Import xUnit results
 				xunit testTimeMargin: '3000', thresholdMode: 1, thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1'), skipped(failureNewThreshold: '1', failureThreshold: '1', unstableNewThreshold: '1', unstableThreshold: '1')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: 'ci-demo-api-tests/TestResults/unit_tests.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
 			}
 		}
 		stage('Deploy') {
 			steps {
+				// Send slack notification to advise of deployment start
 				slackSend color: "#439FE0", message: "Building deployment packages for build ${env.BUILD_NUMBER} on branch ${env.BRANCH_NAME}"
+				
+				// CD to workspace and build deployment
 				bat '''cd %WORKSPACE%
-					dotnet publish'''
+				dotnet publish'''
+					
+				// Copy artifacts to remote server
 				sshPublisher(publishers: [sshPublisherDesc(configName: 'AWS Free Tier', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/', sourceFiles: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/ci-demo-api*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 			}
 		}
