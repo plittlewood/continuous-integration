@@ -34,5 +34,11 @@ namespace ci_demo_api.Controllers
         {
             return Ok($"You passed a value of {value} to the new endpoint");
         }
+
+        [HttpGet("endpointfrombranch/{value}")]
+        public async Task<IActionResult> NewEndpoint(string value)
+        {
+            return Ok($"You passed a value of {value} to the new endpoint added to new_branch");
+        }
     }
 }
