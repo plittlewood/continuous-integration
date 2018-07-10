@@ -20,8 +20,24 @@ pipeline {
 				// There is a bug with this code that if we don't force returning of exit 0, the xunit step does not run as the test gets marked as failed
 				bat '''cd %WORKSPACE%
 				dotnet test ci-demo-api-tests/ci-demo-api-tests.csproj --logger "trx;LogFileName=unit_tests.xml"'''
+				
+				
 			}
-		}		
+		}
+		stage('Deploy') {
+			steps {
+				// Send slack notification to advise of deployment start
+				slackSend color: "#439FE0", message: "Building deployment packages for build ${env.BUILD_NUMBER} on branch ${env.BRANCH_NAME}"
+				
+				// CD to workspace and build deployment
+				bat '''cd %WORKSPACE%
+				dotnet publish'''
+					
+				// Copy artifacts to remote server
+				sshPublisher(publishers: [sshPublisherDesc(configName: 'AWS Free Tier', transfers: [sshTransfer(excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/', sourceFiles: 'ci-demo-api/bin/Debug/netcoreapp2.0/publish/ci-demo-api*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+			}
+		}
+		
     }
 	post {
 		always {
