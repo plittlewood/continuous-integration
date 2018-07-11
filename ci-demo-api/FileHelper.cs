@@ -10,7 +10,7 @@ namespace ci_demo_api
     {
         public static string GetFileContents(string path)
         {
-            string fullPath = $@"/apps/apifiles/{path}";
+            string fullPath = $@"TestFiles/{path}";
 
             if (!File.Exists(fullPath))
             {
