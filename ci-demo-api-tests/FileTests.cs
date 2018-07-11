@@ -1,6 +1,7 @@
 ﻿using ci_demo_api;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Xunit;
 
@@ -16,6 +17,13 @@ namespace ci_demo_api_tests
             string output = FileHelper.GetFileContents(path);
 
             Assert.NotEmpty(output);
+        }
+
+        [Theory]
+        [InlineData("file_three.txt")]
+        public void When_FileDoesNotExists_ThrowFileNotFoundException(string path)
+        {
+            Assert.Throws<FileNotFoundException>(() => FileHelper.GetFileContents(path));
         }
     }
 }
