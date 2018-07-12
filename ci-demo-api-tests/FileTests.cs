@@ -1,29 +1,31 @@
 ﻿using ci_demo_api;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Xunit;
 
 namespace ci_demo_api_tests
 {
+    [TestClass]
     public class FileTests
     {
-        [Theory]
-        [InlineData("file_one.txt")]
-        [InlineData("file_two.txt")]
+        // Theories allow parameters to be passed to tests. The method below will generate two tests
+        [TestMethod]
+        [DataRow("file_one.txt")]
+        [DataRow("file_two.txt")]
         public void When_FileExists_ReturnContent(string path)
         {
             string output = FileHelper.GetFileContents(path);
 
-            Assert.NotEmpty(output);
+            Assert.AreNotEqual("", output);
         }
 
-        [Theory]
-        [InlineData("file_three.txt")]
+        [TestMethod]
+        [DataRow("file_three.txt")]
         public void When_FileDoesNotExists_ThrowFileNotFoundException(string path)
         {
-            Assert.Throws<FileNotFoundException>(() => FileHelper.GetFileContents(path));
+            Assert.ThrowsException<FileNotFoundException>(() => FileHelper.GetFileContents(path));
         }
     }
 }
