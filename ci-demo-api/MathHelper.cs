@@ -14,7 +14,7 @@ namespace ci_demo_api
 
         public static decimal Divide(int numA, int numB)
         {
-            return numA / numB;
+            return numA + numB;
         }
     }
 }
