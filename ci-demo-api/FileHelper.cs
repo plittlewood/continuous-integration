@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ci_demo_api
+namespace ci_demo_api_tests
 {
     public static class FileHelper
     {

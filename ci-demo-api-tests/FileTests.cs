@@ -22,10 +22,12 @@ namespace ci_demo_api_tests
         }
 
         [TestMethod]
+        [DataRow("file_one.txt")]
         [DataRow("file_three.txt")]
+        [ExpectedException(typeof(FileNotFoundException), "A FileNotFoundException was not thrown as expected")]
         public void When_FileDoesNotExists_ThrowFileNotFoundException(string path)
         {
-            Assert.ThrowsException<FileNotFoundException>(() => FileHelper.GetFileContents(path));
+            FileHelper.GetFileContents(path);
         }
     }
 }
